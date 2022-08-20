@@ -1,5 +1,6 @@
 package one.diome.parking.controller;
 
+import one.diome.parking.controller.dto.ParkingDTO;
 import one.diome.parking.model.Parking;
 import one.diome.parking.service.ParkingService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class ParkingController {
     }
 
     @GetMapping
-    public List<Parking> findAll(){
+    public List<ParkingDTO> findAll(){
         return service.findAll();
     }
 }
