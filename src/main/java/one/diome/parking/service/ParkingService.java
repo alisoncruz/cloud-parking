@@ -1,5 +1,7 @@
 package one.diome.parking.service;
 
+import one.diome.parking.controller.dto.ParkingDTO;
+import one.diome.parking.controller.mapper.ParkingMapper;
 import one.diome.parking.model.Parking;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,12 @@ import java.util.stream.Collectors;
 public class ParkingService {
     private static Map<String, Parking> parkingMap = new HashMap<>();
 
+    private ParkingMapper parkingMapper;
+
+    public ParkingService(ParkingMapper parkingMapper){
+        this.parkingMapper = parkingMapper;
+    }
+
     static {
         var id = getUUID();
         Parking parking = new Parking(id,"DMS-1111","SC","CELTA","PRETO");
@@ -23,7 +31,8 @@ public class ParkingService {
         return UUID.randomUUID().toString().replace("-","");
     }
 
-    public List<Parking> findAll(){
-        return parkingMap.values().stream().collect(Collectors.toList());
+    public List<ParkingDTO> findAll(){
+        List<Parking> parkingList = parkingMap.values().stream().collect(Collectors.toList());
+        return parkingMapper.toParkingDTOList(parkingList);
     }
 }
