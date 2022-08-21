@@ -1,9 +1,12 @@
 package one.diome.parking.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
+@Entity
+@Table(name = "tb_parkings")
 public class Parking {
 
+    @Id
     private String id;
     private String license;
     private String state;
