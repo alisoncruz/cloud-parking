@@ -2,6 +2,7 @@ package one.diome.parking.service;
 
 import one.diome.parking.controller.dto.ParkingCreateDTO;
 import one.diome.parking.controller.dto.ParkingDTO;
+import one.diome.parking.controller.dto.ParkingUpdateDTO;
 import one.diome.parking.controller.mapper.ParkingMapper;
 import one.diome.parking.model.Parking;
 import one.diome.parking.service.exception.ResourceNotFoundException;
@@ -56,6 +57,24 @@ public class ParkingService {
         parking.setId(getUUID());
         parking.setEntryDate(LocalDateTime.now());
         parkingMap.put(parking.getId(),parking);
+        return parkingMapper.toParkingDTO(parking);
+    }
+
+    public void delete(String id){
+        Parking parking = parkingMap.get(id);
+        if(parking == null){
+            throw new ResourceNotFoundException("Parking with Id: "+id + " not found");
+        }
+        parkingMap.remove(id);
+    }
+
+    public ParkingDTO update(String id, ParkingUpdateDTO dto){
+        Parking parking = parkingMap.get(id);
+        if(parking == null){
+            throw new ResourceNotFoundException("Parking with Id: "+id + " not found");
+        }
+        parking.setColor(dto.getColor());
+        parkingMap.replace(id,parking);
         return parkingMapper.toParkingDTO(parking);
     }
 
