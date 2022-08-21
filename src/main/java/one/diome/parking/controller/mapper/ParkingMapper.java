@@ -1,5 +1,6 @@
 package one.diome.parking.controller.mapper;
 
+import one.diome.parking.controller.dto.ParkingCreateDTO;
 import one.diome.parking.controller.dto.ParkingDTO;
 import one.diome.parking.model.Parking;
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,14 @@ public class ParkingMapper {
 
     public ParkingDTO toParkingDTO(Parking parking) {
         return MODEL_MAPPER.map(parking, ParkingDTO.class);
+    }
+
+    public Parking toParkingEntity(ParkingDTO dto){
+        return MODEL_MAPPER.map(dto,Parking.class);
+    }
+
+    public Parking toParkingCreate(ParkingCreateDTO dto){
+        return MODEL_MAPPER.map(dto,Parking.class);
     }
 
     public List<ParkingDTO> toParkingDTOList(List<Parking> list) {
