@@ -25,16 +25,6 @@ public class ParkingService {
         this.parkingMapper = parkingMapper;
     }
 
-    static {
-        var id = getUUID();
-        var id2 = getUUID();
-        Parking parking = new Parking(id,"DMS-1111","SC","CELTA","PRETO");
-        Parking parking2 = new Parking(id2,"WAS-1111","SP","VW GOL","VERMELHO");
-        parkingMap.put(id,parking);
-        parkingMap.put(id2,parking2);
-
-    }
-
     private static String getUUID(){
         return UUID.randomUUID().toString().replace("-","");
     }
