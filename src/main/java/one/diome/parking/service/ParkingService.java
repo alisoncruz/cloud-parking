@@ -8,6 +8,8 @@ import one.diome.parking.model.Parking;
 import one.diome.parking.repository.ParkingRepository;
 import one.diome.parking.service.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +32,7 @@ public class ParkingService {
         return UUID.randomUUID().toString().replace("-", "");
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<ParkingDTO> findAll() {
         return parkingRepository.findAll()
                 .stream()
@@ -37,11 +40,13 @@ public class ParkingService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public ParkingDTO findById(String id) {
         Parking parking = find(id);
         return parkingMapper.toParkingDTO(parking);
     }
 
+    @Transactional
     public ParkingDTO create(ParkingCreateDTO dto) {
         Parking parking = parkingMapper.toParkingCreate(dto);
         parking.setId(getUUID());
@@ -50,11 +55,13 @@ public class ParkingService {
         return parkingMapper.toParkingDTO(parking);
     }
 
+    @Transactional
     public void delete(String id) {
         Parking parking = find(id);
         parkingRepository.deleteById(id);
     }
 
+    @Transactional
     public ParkingDTO update(String id, ParkingUpdateDTO dto) {
         Parking parking = find(id);
         parking.setColor(dto.getColor());
@@ -67,6 +74,7 @@ public class ParkingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Parking with Id: " + id + " not found"));
     }
 
+    @Transactional
     public ParkingDTO checkout(String id) {
         Parking parking = find(id);
         parking.setExitDate(LocalDateTime.now());
